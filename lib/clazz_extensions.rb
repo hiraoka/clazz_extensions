@@ -19,8 +19,16 @@ class ClazzExtension
 
   def method_missing( method, *args, &block )
     arg = args.first
-    key = arg.keys.first
-    param = arg[key]
+    case arg
+    when Symbol
+      key = args.first
+      param = []
+    when Hash
+      key = arg.keys.first
+      param = arg[key]
+    else
+      raise
+    end
     clazz_name = method.to_s.split("_").map { |str| str.capitalize }.join( "" )
     child_clazz = "ClazzExtensions::" + clazz_name
 

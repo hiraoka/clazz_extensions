@@ -4,10 +4,15 @@ module ClazzExtensions
       def only( methoz )
         @include_methoz ||= []
         @include_methoz << methoz
+        @include_methoz.flatten!
+      end
+
+      def all( _ )
+        @include_methoz = instance_variable_get( :@methoz )
       end
 
       def reject( methoz )
-        @include_methoz ||= []
+        @include_methoz ||= instance_variable_get( :@methoz )
         methoz.each do |method|
           @include_methoz.delete method
         end
@@ -20,12 +25,14 @@ module ClazzExtensions
       end
 
       def method_define
-        include_methoz.each do |m|
+        @include_methoz.each do |m|
           if method_defined?( m )
             eval <<-QUIT
               module #{include_module}
                 def #{m}( *args )
-                  #{self}.new.__send__(:"#{m}").call( self, args )
+                  lambda { |clazz,args|
+                    #{self}.new.__send__(:"#{m}", clazz, args)
+                  }.call( self,args )
                 end
               end
             QUIT
@@ -43,11 +50,6 @@ module ClazzExtensions
           end
         QUIT
         "::Extension::" + self.to_s.split( "::" ).last
-      end
-
-      def include_methoz
-        @include_methoz ||= []
-        @include_methoz.flatten
       end
     end
   end
