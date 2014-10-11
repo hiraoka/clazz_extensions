@@ -1,19 +1,37 @@
-= clazz_extensions
+= What is clazz_extensions
 
-Description goes here.
+Add utility methods on defined class.
 
-== Contributing to clazz_extensions
- 
-* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
-* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
-* Fork the project.
-* Start a feature/bugfix branch.
-* Commit and push until you are happy with your contribution.
-* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
-* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+`example`
+```
+"string".classify                   #=> "String"
+[:a, :b, :c, :a, :d, :c].duplicate #=> [:a, :c]
+```
 
-== Copyright
+== How to Use
+`add all`
+```
+ClazzExtension.load do
+  array :all
+  string :all
+end
 
-Copyright (c) 2014 hiraoka. See LICENSE.txt for
-further details.
+```
+
+`add specific methods`
+```
+ClazzExtension.load do
+  array add:  [:classify ]
+end
+
+```
+
+`add every methods that excluding specific`
+```
+ClazzExtension.load do
+  array add:  [:classify ]
+end
+
+```
+
 
