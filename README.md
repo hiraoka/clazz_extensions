@@ -1,14 +1,14 @@
-= What is clazz_extensions
+#What is clazz_extensions
 
 Add utility methods on defined class.
 
-example
+##example
 ```
 "string".classify                   #=> "String"
 [:a, :b, :c, :a, :d, :c].duplicate #=> [:a, :c]
 ```
 
-== How to Use
+## How to Use
 add all
 ```
 ClazzExtension.load do
