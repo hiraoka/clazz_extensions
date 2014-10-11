@@ -1,11 +1,11 @@
 module ClazzExtensions
   class String < Base
     @methoz = [:classify, :to_const, :classify2]
-    def classify( clazz, args )
+    def classify( clazz, _ )
       to_class_name( clazz )
     end
 
-    def to_const( clazz, args )
+    def to_const( clazz, _ )
       clazz_name = to_class_name( clazz )
 
       if Class.const_defined?( clazz_name )
