@@ -1,10 +1,13 @@
+require "./clazz_extensions/base"
+Dir[File.join(__dir__, "clazz_extensions", "*.rb")].each { |f| require f }
 class ClazzExtension
   class << self
     def load( &block )
       @clazzes ||= []
       self.new.load( &block )
+      clazzes = @clazzes.uniq
 
-      @clazzes.each do |clazz_name|
+      clazzes.each do |clazz_name|
         clazz = const_get(clazz_name)
         clazz.method_define
         clazz.include!
@@ -29,7 +32,7 @@ class ClazzExtension
     else
       raise
     end
-    clazz_name = method.to_s.split("_").map { |str| str.capitalize }.join( "" )
+    clazz_name = ClazzExtensions::String.new.classify( method.to_s, nil )
     child_clazz = "ClazzExtensions::" + clazz_name
 
     if self.class.const_defined?( child_clazz )
@@ -43,5 +46,4 @@ class ClazzExtension
   end
 end
 
-Dir[File.join(__dir__, "clazz_extensions", "*.rb")].each { |f| require f }
 

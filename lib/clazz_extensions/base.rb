@@ -1,26 +1,36 @@
 module ClazzExtensions
   class Base
     class << self
-      def only( methoz )
+      def add( methoz )
         @include_methoz ||= []
         @include_methoz << methoz
-        @include_methoz.flatten!
+        @include_methoz.flatten!.uniq!
       end
 
       def all( _ )
-        @include_methoz = instance_variable_get( :@methoz )
+        @include_methoz = instance_variable_get( :@methoz ).dup
       end
 
       def reject( methoz )
-        @include_methoz ||= instance_variable_get( :@methoz )
-        methoz.each do |method|
-          @include_methoz.delete method
-        end
+        @include_methoz ||= instance_variable_get( :@methoz ).dup
+        delete( methoz )
+      end
+
+      def delete( methoz )
+        m = exist_const_get( include_module )
+        methoz.each { |method|
+          if m and m.method_defined?( method )
+            if @include_methoz.delete method
+              m.instance_eval("remove_method( :#{method} )" ) if m
+            end
+          end
+        }
       end
 
       def include!
         if const_defined? include_module
-          const_get(target_class).instance_eval( "include( #{include_module} )" )
+          clazz = exist_const_get("::" + target_class)
+          clazz.instance_eval( "include( #{include_module} )" )
         end
       end
 
@@ -30,9 +40,7 @@ module ClazzExtensions
             eval <<-QUIT
               module #{include_module}
                 def #{m}( *args )
-                  lambda { |clazz,args|
-                    #{self}.new.__send__(:"#{m}", clazz, args)
-                  }.call( self,args )
+                  #{self}.new.__send__(:"#{m}", self, args)
                 end
               end
             QUIT
@@ -42,6 +50,12 @@ module ClazzExtensions
 
       def target_class
         self.to_s.split( "::" ).last
+      end
+
+      def exist_const_get( clazz_name )
+        if const_defined?( clazz_name )
+          const_get( clazz_name )
+        end
       end
 
       def include_module
