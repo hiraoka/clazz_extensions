@@ -2,14 +2,14 @@
 
 Add utility methods on defined class.
 
-`example`
+example
 ```
 "string".classify                   #=> "String"
 [:a, :b, :c, :a, :d, :c].duplicate #=> [:a, :c]
 ```
 
 == How to Use
-`add all`
+add all
 ```
 ClazzExtension.load do
   array :all
@@ -18,7 +18,7 @@ end
 
 ```
 
-`add specific methods`
+add specific methods
 ```
 ClazzExtension.load do
   array add:  [:classify ]
@@ -26,7 +26,7 @@ end
 
 ```
 
-`add every methods that excluding specific`
+add every methods that excluding specific
 ```
 ClazzExtension.load do
   array add:  [:classify ]
