@@ -2,9 +2,7 @@ module ClazzExtensions
   class Base
     class << self
       def add( methoz )
-        if @include_methoz.nil? or @include_methoz.empty?
-          @include_methoz = []
-        end
+        @include_methoz ||= []
         @include_methoz << methoz
         @include_methoz.flatten!.uniq!
       end
@@ -14,9 +12,7 @@ module ClazzExtensions
       end
 
       def reject( methoz )
-        if @include_methoz.nil? or @include_methoz.empty?
-          @include_methoz = instance_variable_get( :@methoz ).dup
-        end
+        @include_methoz ||= instance_variable_get( :@methoz ).dup
         delete( methoz )
       end
 
