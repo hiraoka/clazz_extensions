@@ -4,8 +4,9 @@ Add utility methods on defined class.
 
 ##example
 ```
-"string".classify                  #=> "String"
-[:a, :b, :c, :a, :d, :c].duplicate #=> [:a, :c]
+"example_class".classify             #=> "ExampleClass"
+"example/class_a".classify           #=> "Example::ClassA"
+[:a, :b, :c, :a, :d, :c].duplication #=> [:a, :c]
 ```
 
 ## How to Use
