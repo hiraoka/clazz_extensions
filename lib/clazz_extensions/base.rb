@@ -2,7 +2,9 @@ module ClazzExtensions
   class Base
     class << self
       def add( methoz )
-        @include_methoz ||= []
+        if @include_methoz.nil? or @include_methoz.empty?
+          @include_methoz = []
+        end
         @include_methoz << methoz
         @include_methoz.flatten!.uniq!
       end
@@ -19,15 +21,15 @@ module ClazzExtensions
       end
 
       def reject_all( _ )
-        @include_methoz = []
-        delete( instance_variable_get( :@methoz ).dup )
+        delete( @include_methoz )
+        @include_methoz = nil
       end
 
       def delete( methoz )
         m = exist_const_get( include_module )
-        methoz.each { |method|
-          if m and m.method_defined?( method )
-            if @include_methoz.delete method
+        [methoz].flatten.compact.each { |method|
+          if @include_methoz.delete method
+            if m and m.method_defined?( method )
               m.instance_eval("remove_method( :#{method} )" ) if m
             end
           end
@@ -42,7 +44,7 @@ module ClazzExtensions
       end
 
       def method_define
-        @include_methoz.each do |m|
+        [@include_methoz].flatten.compact.each do |m|
           if method_defined?( m )
             eval <<-QUIT
               module #{include_module}
