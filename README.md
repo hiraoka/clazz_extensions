@@ -21,14 +21,16 @@ end
 add specific methods
 ```
 ClazzExtension.load do
-  array add:  [:classify ]
+  string add:  [:classify ]
+  array  add:  [:duplication, :unduplication ]
 end
 ```
 
 add every methods that excluding specific
 ```
 ClazzExtension.load do
-  array refect:  [:classify ]
+  string refect:  [:to_const ]
+  array  refect:  [::duplication! ]
 end
 ```
 
