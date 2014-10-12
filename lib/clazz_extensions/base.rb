@@ -12,8 +12,15 @@ module ClazzExtensions
       end
 
       def reject( methoz )
-        @include_methoz ||= instance_variable_get( :@methoz ).dup
+        if @include_methoz.nil? or @include_methoz.empty?
+          @include_methoz = instance_variable_get( :@methoz ).dup
+        end
         delete( methoz )
+      end
+
+      def reject_all( _ )
+        @include_methoz = []
+        delete( instance_variable_get( :@methoz ).dup )
       end
 
       def delete( methoz )

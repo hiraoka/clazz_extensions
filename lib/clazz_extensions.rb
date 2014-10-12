@@ -1,4 +1,4 @@
-require "./clazz_extensions/base"
+require "clazz_extensions/base"
 Dir[File.join(__dir__, "clazz_extensions", "*.rb")].each { |f| require f }
 class ClazzExtension
   class << self
