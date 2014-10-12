@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["panda1200813@yahoo.co.jp"]
   spec.summary       = "Add utility methods on defined class."
   spec.description   = "Add utility methods on defined class."
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/hiraoka/clazz_extensions"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -20,4 +20,6 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
+  spec.files         = `git ls-files`.split("\n")
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
 end
