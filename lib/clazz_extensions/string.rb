@@ -4,10 +4,14 @@ module ClazzExtensions
       to_class_name( clazz )
     end
 
+    def blank?( clazz, _ )
+      clazz.size == 0
+    end
+
     def to_const( clazz, _ )
       clazz_name = to_class_name( clazz )
 
-      if Class.const_defined?( clazz_name )
+      if !blank?(clazz_name, []) and Class.const_defined?( clazz_name )
         Class.const_get( clazz_name )
       else
         nil
