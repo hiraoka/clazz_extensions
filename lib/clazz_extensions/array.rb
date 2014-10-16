@@ -11,9 +11,14 @@ module ClazzExtensions
     end
 
     def duplication!( clazz, _ )
-      duplicate( clazz, args ).each { |v|
-        clazz.delete( v )
+      dupli = duplication( clazz, _ )
+      array = clazz.dup
+      array.each { |v|
+        unless dupli.index( v )
+          clazz.delete( v )
+        end
       }
+      clazz.uniq!
     end
 
     def unduplication( clazz, _ )

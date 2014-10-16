@@ -34,7 +34,7 @@ module ClazzExtensions
     def each_with_index( clazz, args, &block )
       if block.respond_to?( :call )
         clazz.split("").each_with_index { |v,i|
-          block( v, i )
+          block.call( v, i )
         }
       end
       clazz
