@@ -1,6 +1,5 @@
 module ClazzExtensions
   class Array < Base
-    @methoz = [:duplicate, :duplicate!, :unduplicate]
      def duplication( clazz, _ )
        clazz.select { |v|
          clazz.count( v ) > 1

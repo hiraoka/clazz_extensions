@@ -1,6 +1,5 @@
 module ClazzExtensions
   class String < Base
-    @methoz = [:classify, :to_const, :classify2]
     def classify( clazz, _ )
       to_class_name( clazz )
     end
@@ -17,6 +16,24 @@ module ClazzExtensions
 
     def classify2( clazz, args )
       to_class_name(  clazz + "_" + args.join("_") )
+    end
+
+    def each( clazz, args, &block )
+      if block.respond_to?( :call )
+        clazz.split("").each { |v|
+          block.call( v )
+        }
+      end
+      clazz
+    end
+
+    def each_with_index( clazz, args, &block )
+      if block.respond_to?( :call )
+        clazz.split("").each_with_index { |v,i|
+          block( v, i )
+        }
+      end
+      clazz
     end
 
     private

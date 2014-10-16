@@ -8,11 +8,11 @@ module ClazzExtensions
       end
 
       def all( _ )
-        @include_methoz = instance_variable_get( :@methoz ).dup
+        @include_methoz = def_methoz
       end
 
       def reject( methoz )
-        @include_methoz ||= instance_variable_get( :@methoz ).dup
+        @include_methoz ||= def_methoz
         delete( methoz )
       end
 
@@ -32,6 +32,10 @@ module ClazzExtensions
         }
       end
 
+      def def_methoz
+        self.new.public_methods - ClazzExtensions::Base.new.public_methods
+      end
+
       def include!
         if const_defined? include_module
           clazz = exist_const_get("::" + target_class)
@@ -44,8 +48,8 @@ module ClazzExtensions
           if method_defined?( m )
             eval <<-QUIT
               module #{include_module}
-                def #{m}( *args )
-                  #{self}.new.__send__(:"#{m}", self, args)
+                def #{m}( *args, &block )
+                  #{self}.new.__send__(:"#{m}", self, args, &block)
                 end
               end
             QUIT
